@@ -1,4 +1,16 @@
 {
+    "data":{
+        "!Dir":{
+            "$ref": "{{cwd.Dir}}",
+            "method":{
+                "name": "join_Dir",
+                "kwargs":{
+                    "path": "Data"
+                }
+            }
+        }
+    },
+
     "!package_name":{
         "$ref": "{{_Dir}}",
         "method":{
