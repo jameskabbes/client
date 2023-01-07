@@ -91,7 +91,7 @@ class Client( ParentClass ):
     def load_USER_CONFIG( self, **kwargs ):
 
         # 6. User-specified file override
-        if self.cfg.has_attr( 'user.config.Path' ):
+        if self.cfg.has_key( 'user.config.path' ):
             if self.cfg['user.config.Path'].exists():
                 self.cfg.load_dict( self.cfg['user.config.Path'].read_json_to_dict() )
 

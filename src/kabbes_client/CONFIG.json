@@ -65,7 +65,6 @@
 
     "user":{
         "config":{
-            "path": "{{cwd.Dir}}/{{package_name}}.json",
             "!Path": {
                 "$ref": "{{_Dir}}",
                 "method": {
