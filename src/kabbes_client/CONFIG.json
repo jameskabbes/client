@@ -11,76 +11,68 @@
         }
     },
 
-    "!package_name":{
-        "$ref": "{{_Dir}}",
-        "method":{
-            "name": "lowest"
-        }
-    },
-
-    "!cache_Dir":{
-        "$ref": "{{xdg.Dir}}",
-        "method":{
-            "name": "join_Dir",
-            "kwargs":{
-                "path": "kabbes"
-            }
-        }
-        
-    },
-    "!package_cache_Dir":{
-        "$ref": "{{cache_Dir}}",
-        "method":{
-            "name": "join_Dir",
-            "kwargs":{
-                "path": "{{package_name}}"
-            }
-        }
-    },
-    "!package_cache_Path":{
-        "$ref": "{{package_cache_Dir}}",
-        "method":{
-            "name": "join_Path",
-            "kwargs":{
-                "path": "config_cache.json"
-            }
-        }
-    },
-    "!package_config_Path":{
-        "$ref": "{{_Dir}}",
-        "method":{
-            "name": "join_Path",
-            "kwargs":{
-                "path": "CONFIG.json"
+    "config":{
+        "!Dir":{
+            "$ref": "{{xdg.Dir}}",
+            "method":{
+                "name": "join_Dir",
+                "kwargs":{
+                    "path": "kabbes"
+                }
             }
         }
     },
 
-    "cache":{
-        "Dir": "{{cache_Dir}}",
-        "package":{
-            "Dir": "{{package_cache_Dir}}",
-            "Path": "{{package_cache_Path}}"
-        }
-    },
     "package":{
-        "name": "{{package_name}}",
+        "!name":{
+            "$ref": "{{_Dir}}",
+            "method":{
+                "name": "lowest"
+            }
+        },
         "config":{
-            "Path": "{{package_config_Path}}"
+            "cache":{
+                "!Dir":{
+                    "$ref": "{{config.Dir}}",
+                    "method":{
+                        "name": "join_Dir",
+                        "kwargs":{
+                            "path": "{{package.name}}"
+                        }
+                    }
+                },
+                "!Path":{
+                    "$ref": "{{package.config.cache.Dir}}",
+                    "method":{
+                        "name": "join_Path",
+                        "kwargs":{
+                            "path": "config_cache.json"
+                        }
+                    }
+                }
+            },
+            "!Path":{
+                "$ref": "{{_Dir}}",
+                "method":{
+                    "name": "join_Path",
+                    "kwargs":{
+                        "path": "CONFIG.json"
+                    }
+                }
+            }
         }
     },
-
-    "user_config_path": "{{cwd.Dir}}/{{package_name}}.json",
 
     "user":{
         "config":{
-            "!Path":{
+            "path": "{{cwd.Dir}}/{{package_name}}.json",
+            "!Path": {
                 "$ref": "{{_Dir}}",
                 "method": {
                     "name": "construct",
                     "args":["Path"],
                     "kwargs":{
-                        "path": "{{user_config_path}}"
+                        "path": "{{user.config.path}}"
                     }
                 }    
             }
