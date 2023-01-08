@@ -4,11 +4,15 @@ import kabbes_client
 
 class Client( ParentClass ):
 
+    """
+    Clients take a long time to initliaze. Minize the number of times __init__ is called
+    """
+
     _DEFAULT_CONFIG = {
         "_Dir":       kabbes_client._Dir,
-        "cwd.Dir":    kabbes_client._cwd_Dir,
-        "xdg.Dir":    kabbes_client._xdg_Dir,
-        "home.Dir":   kabbes_client._home_Dir,
+        "cwd.!Dir":    kabbes_client._cwd_Dir,
+        "xdg.!Dir":    kabbes_client._xdg_Dir,
+        "home.!Dir":   kabbes_client._home_Dir,
     }
 
     _IMP_ATTS = ['cfg']
@@ -18,6 +22,8 @@ class Client( ParentClass ):
     _CONFIG = {}
 
     def __init__( self, cfg=None, dict={} ):
+
+        print ('initializing CLIENT')
 
         ParentClass.__init__( self )
 
@@ -40,13 +46,14 @@ class Client( ParentClass ):
         package_config_cache_Path2= self.load_PACKAGE_CONFIG_CACHE( create=True )
         user_config_Path2 = self.load_USER_CONFIG()
 
+        """
         if package_config_Path != None:
             assert package_config_Path == package_config_Path2
         if package_config_cache_Path != None:
             assert package_config_cache_Path == package_config_cache_Path2
         if user_config_Path != None:
             assert user_config_Path == user_config_Path2
-
+        """
 
     def load_DEFAULT_CONFIG( self ):
 
