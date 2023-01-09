@@ -20,8 +20,6 @@ class Client( ParentClass ):
 
     def __init__( self, cfg=None, dict={} ):
 
-        print ('initializing CLIENT')
-
         ParentClass.__init__( self )
 
         self.override_dict = dict
