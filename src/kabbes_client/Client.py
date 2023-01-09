@@ -18,9 +18,6 @@ class Client( ParentClass ):
     _IMP_ATTS = ['cfg']
     _ONE_LINE_ATTS = ['cfg']
 
-    # For child class instances to define
-    _CONFIG = {}
-
     def __init__( self, cfg=None, dict={} ):
 
         print ('initializing CLIENT')
@@ -33,7 +30,6 @@ class Client( ParentClass ):
         self.cfg = cfg
 
         self.load_DEFAULT_CONFIG()
-        self.load_CONFIG()
         self.load_CLIENT_JSON()
         package_config_Path = self.load_PACKAGE_CONFIG()
         package_config_cache_Path = self.load_PACKAGE_CONFIG_CACHE()
@@ -45,6 +41,9 @@ class Client( ParentClass ):
         package_config_Path2 = self.load_PACKAGE_CONFIG( create=True )
         package_config_cache_Path2= self.load_PACKAGE_CONFIG_CACHE( create=True )
         user_config_Path2 = self.load_USER_CONFIG()
+        self.load_CLIENT_OVERRIDE()
+        self.load_SYSTEM_KWARGS()
+
 
         """
         if package_config_Path != None:
@@ -59,11 +58,6 @@ class Client( ParentClass ):
 
         # 1. _DEFAULT_CONFIG attribute
         self.cfg.load_dict( self._DEFAULT_CONFIG )
-
-    def load_CONFIG( self ):
-
-        # 2. _CONFIG
-        self.cfg.load_dict( self._CONFIG )
 
     def load_CLIENT_JSON( self ):
 
