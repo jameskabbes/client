@@ -9,7 +9,7 @@ class Package:
     def __init__( self, _Dir, dict={}, root=kabbes_client.root ):
 
         ### Load baseline
-        self.cfg = kabbes_config.Config( dict = Package._config_dict )
+        self.cfg = kabbes_config.Node( 'TEMP', dict = Package._config_dict )
         self.cfg.merge( kabbes_config.Config( dict = {'_Dir': _Dir} ) )
 
         ### Load Package.json
@@ -19,6 +19,13 @@ class Package:
         ### Load _Dir/CONFIG.json
         if self.cfg['package.config.Path'].exists():
             self.cfg.merge( kabbes_config.Config( dict=self.cfg['package.config.Path'].read_json_to_dict() ) )
+
+        ### rename the root
+        self.cfg.Key.key = self.cfg['package.name']
+
+        ### get adopted by the root node
+        if isinstance( root, kabbes_client.Root ):
+            root.cfg.adopt( self.cfg )
 
         ### Load Cache -> config_cache.json
         if not self.cfg[ 'package.config.cache.Dir' ].exists():
@@ -47,10 +54,3 @@ class Package:
 
             if isinstance( package_node, kabbes_config.Node ):
                 self.cfg.merge( package_node )
-
-        ### rename the root
-        self.cfg.Key.key = self.cfg['package.name']
-
-        ### get adopted by the root node
-        if isinstance( root, kabbes_client.Root ):
-            root.adopt( self.cfg )
