@@ -1,0 +1,41 @@
+{
+    "package":{
+        "!name":{
+            "$ref": "{R{_Dir}R}",
+            "method":{
+                "name": "lowest"
+            }
+        },
+        "config":{
+            "cache":{
+                "!Dir":{
+                    "$ref": "{{config.Dir}}",
+                    "method":{
+                        "name": "join_Dir",
+                        "kwargs":{
+                            "path": "{R{package.name}R}"
+                        }
+                    }
+                },
+                "!Path":{
+                    "$ref": "{R{package.config.cache.Dir}R}",
+                    "method":{
+                        "name": "join_Path",
+                        "kwargs":{
+                            "path": "config_cache.json"
+                        }
+                    }
+                }
+            },
+            "!Path":{
+                "$ref": "{R{_Dir}R}",
+                "method":{
+                    "name": "join_Path",
+                    "kwargs":{
+                        "path": "CONFIG.json"
+                    }
+                }
+            }
+        }
+    }
+}

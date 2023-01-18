@@ -1,0 +1,28 @@
+{
+    "config":{
+        "!Dir":{
+            "$ref": "{{xdg.Dir}}",
+            "method":{
+                "name": "join_Dir",
+                "kwargs":{
+                    "path": "kabbes"
+                }
+            }
+        }
+    },
+
+    "user":{
+        "config":{
+            "!Path": {
+                "$ref": "$Dir",
+                "method": {
+                    "name": "construct",
+                    "args":["Path"],
+                    "kwargs":{
+                        "path": "{{user.config.path}}"
+                    }
+                }    
+            }
+        }
+    }
+}
