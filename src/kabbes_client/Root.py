@@ -22,6 +22,12 @@ class Root:
         cfg_json = kabbes_config.Config( dict = Root._config_json_Path.read_json_to_dict() )
         self.cfg.merge( cfg_json )
 
+        ### Load cwd Config - user_config.json
+        self.cfg_cwd = kabbes_config.Config()
+        if self.cfg[ 'cwd.config.Path' ].exists():
+            self.cfg_cwd = kabbes_config.Config( dict = self.cfg['cwd.config.Path'].read_json_to_dict() )
+            self.cfg.merge( self.cfg_cwd )
+
         ### Load Cache -> Root_cache.json
         if not self.cfg[ 'config.Dir' ].exists():
             self.cfg['config.Dir'].create( override=True )
@@ -42,9 +48,6 @@ class Root:
         if self.cfg.has_key( 'user.config.path' ):
             if self.cfg['user.config.Path'].exists():
                 self.cfg_user = kabbes_config.Config( dict=self.cfg['user.config.Path'].read_json_to_dict() )
-
-
-
 
 
 

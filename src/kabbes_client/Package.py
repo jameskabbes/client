@@ -8,6 +8,8 @@ class Package:
 
     def __init__( self, _Dir, dict={}, root=kabbes_client.root ):
 
+        valid_root = isinstance( root, kabbes_client.Root )
+
         ### Load baseline
         self.cfg = kabbes_config.Node( 'TEMP', dict = Package._config_dict )
         self.cfg.merge( kabbes_config.Config( dict = {'_Dir': _Dir} ) )
@@ -37,10 +39,15 @@ class Package:
 
         self.cfg.merge( kabbes_config.Config( dict = config_cache_json_Path.read_json_to_dict() ) )
 
-        ### Load user specified config
-        if isinstance( root, kabbes_client.Root ):
-            package_node = root.cfg_user.get_node( self.cfg['package.name'], make=False )
+        ### Load cwd config
+        if valid_root:
+            package_node = root.cfg_cwd.get_node( self.cfg['package.name'], make=False )
+            if isinstance( package_node, kabbes_config.Node ):
+                self.cfg.merge( package_node )
 
+        ### Load user specified config
+        if valid_root:
+            package_node = root.cfg_user.get_node( self.cfg['package.name'], make=False )
             if isinstance( package_node, kabbes_config.Node ):
                 self.cfg.merge( package_node )
 
@@ -49,8 +56,7 @@ class Package:
         self.cfg.merge( cfg_dict )
 
         ### Load system kwargs
-        if isinstance( root, kabbes_client.Root ):
+        if valid_root:
             package_node = root.cfg_sys.get_node( self.cfg['package.name'], make=False )
-
             if isinstance( package_node, kabbes_config.Node ):
                 self.cfg.merge( package_node )

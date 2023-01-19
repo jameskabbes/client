@@ -11,6 +11,16 @@
         }
     },
 
+    "cwd.config.!Path":{
+        "$ref": "{{cwd.Dir}}",
+        "method": {
+            "name": "join_Path",
+            "kwargs":{
+                "path": "user_config.json"
+            }
+        }    
+    },
+
     "user":{
         "config":{
             "!Path": {
