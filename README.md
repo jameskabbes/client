@@ -6,8 +6,8 @@
 * Root -> _config_dict
 * Root -> _config_json_Path
 * Root -> _config_cache_Path
-* Root -> sys_kwargs
 * Root -> cwd_config
+* Root -> sys_kwargs
 * Root -> user.config.path
 
 * Package -> _config_dict

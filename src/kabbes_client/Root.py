@@ -22,12 +22,6 @@ class Root:
         cfg_json = kabbes_config.Config( dict = Root._config_json_Path.read_json_to_dict() )
         self.cfg.merge( cfg_json )
 
-        ### Load cwd Config - user_config.json
-        self.cfg_cwd = kabbes_config.Config()
-        if self.cfg[ 'cwd.config.Path' ].exists():
-            self.cfg_cwd = kabbes_config.Config( dict = self.cfg['cwd.config.Path'].read_json_to_dict() )
-            self.cfg.merge( self.cfg_cwd )
-
         ### Load Cache -> Root_cache.json
         if not self.cfg[ 'config.Dir' ].exists():
             self.cfg['config.Dir'].create( override=True )
@@ -38,6 +32,12 @@ class Root:
 
         cfg_cache = kabbes_config.Config( dict = config_cache_json_Path.read_json_to_dict() )
         self.cfg.merge( cfg_cache )
+
+        ### Load cwd Config - user_config.json
+        self.cfg_cwd = kabbes_config.Config()
+        if self.cfg[ 'cwd.config.Path' ].exists():
+            self.cfg_cwd = kabbes_config.Config( dict = self.cfg['cwd.config.Path'].read_json_to_dict() )
+            self.cfg.merge( self.cfg_cwd )
 
         ### Load system kwargs
         self.cfg_sys = kabbes_config.Config( dict = kabbes_client.sys_kwargs )
