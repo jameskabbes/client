@@ -48,7 +48,7 @@ class Root:
         if self.cfg.has_key( 'user.config.path' ):
             if self.cfg['user.config.Path'].exists():
                 self.cfg_user = kabbes_config.Config( dict=self.cfg['user.config.Path'].read_json_to_dict() )
-
+                self.cfg.merge( self.cfg_user ) #merge at root now, merge on package key later
 
 
 def set_Root( root_inst ):

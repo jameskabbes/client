@@ -42,24 +42,27 @@ class Package( parent_class.ParentClass ):
 
         self.cfg.merge( kabbes_config.Config( dict = config_cache_json_Path.read_json_to_dict() ) )
 
-        ### Load cwd config
+        ### Load cfg_cwd config "if there is user_config.json" in the cwd
         if valid_root:
-            if isinstance( root.cfg_cwd, kabbes_config.Node ):
-                self.cfg.merge( root.cfg_cwd )
+            node = root.cfg_cwd.get_node( self.cfg['package.name'] )
+            if isinstance( node, kabbes_config.Node ):
+                self.cfg.merge( node )
 
-        ### Load user specified config
+        ### Load user specified config "if there is a specified user.config.path" at root level
         if valid_root:
-            if isinstance( root.cfg_user, kabbes_config.Node ):
-                self.cfg.merge( root.cfg_user )
+            node = root.cfg_user.get_node( self.cfg['package.name'] )
+            if isinstance( node, kabbes_config.Node ):
+                self.cfg.merge( node )
 
-        ### Load dict
+        ### Load dict - do not escalate one level
         cfg_dict = kabbes_config.Config( dict = dict )
         self.cfg.merge( cfg_dict )
 
-        ### Load system kwargs
+        ### Load system kwargs - must escalate one level
         if valid_root:
-            if isinstance( root.cfg_sys, kabbes_config.Node ):
-                self.cfg.merge( root.cfg_sys )
+            node = root.cfg_user.get_node( self.cfg['package.name'] )
+            if isinstance( node, kabbes_config.Node ):
+                self.cfg.merge( node )
 
     def read_setup_config( self ):
 
