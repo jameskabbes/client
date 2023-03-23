@@ -41,15 +41,13 @@ class Package:
 
         ### Load cwd config
         if valid_root:
-            package_node = root.cfg_cwd.get_node( self.cfg['package.name'], make=False )
-            if isinstance( package_node, kabbes_config.Node ):
-                self.cfg.merge( package_node )
+            if isinstance( root.cfg_cwd, kabbes_config.Node ):
+                self.cfg.merge( root.cfg_cwd )
 
         ### Load user specified config
         if valid_root:
-            package_node = root.cfg_user.get_node( self.cfg['package.name'], make=False )
-            if isinstance( package_node, kabbes_config.Node ):
-                self.cfg.merge( package_node )
+            if isinstance( root.cfg_user, kabbes_config.Node ):
+                self.cfg.merge( root.cfg_user )
 
         ### Load dict
         cfg_dict = kabbes_config.Config( dict = dict )
@@ -57,6 +55,7 @@ class Package:
 
         ### Load system kwargs
         if valid_root:
-            package_node = root.cfg_sys.get_node( self.cfg['package.name'], make=False )
-            if isinstance( package_node, kabbes_config.Node ):
-                self.cfg.merge( package_node )
+            if isinstance( root.cfg_sys, kabbes_config.Node ):
+                self.cfg.merge( root.cfg_sys )
+
+
