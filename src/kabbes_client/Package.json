@@ -1,5 +1,34 @@
 {
+    "!_src_Dir":{
+        "$ref": "{R{_Dir}R}",
+        "method":{
+            "name": "ascend"
+        }
+    },
+    "!_repo_Dir":{
+        "$ref": "{R{_src_Dir}R}",
+        "method":{
+            "name": "ascend"
+        }
+    },
+    "setup_config":{
+        "!Path":{
+            "$ref": "{R{_repo_Dir}R}",
+            "method":{
+                "name": "join_Path",
+                "kwargs":{
+                    "path": "setup.cfg"
+                }
+            }
+        }
+    },
     "package":{
+        "!version":{
+            "$ref": "{R{_self}R}",
+            "method":{
+                "name": "get_version"
+            }
+        },
         "!name":{
             "$ref": "{R{_Dir}R}",
             "method":{

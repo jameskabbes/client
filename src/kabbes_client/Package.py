@@ -1,18 +1,21 @@
 import kabbes_client
 import kabbes_config
+import configparser
+import parent_class
 
-class Package:
+class Package( parent_class.ParentClass ):
 
     _config_dict = {}
     _config_json_Path = kabbes_client._Dir.join_Path( path='Package.json' )
 
     def __init__( self, _Dir, dict={}, root=kabbes_client.root ):
+        parent_class.ParentClass.__init__( self )
 
         valid_root = isinstance( root, kabbes_client.Root )
 
         ### Load baseline
         self.cfg = kabbes_config.Node( 'TEMP', dict = Package._config_dict )
-        self.cfg.merge( kabbes_config.Config( dict = {'_Dir': _Dir} ) )
+        self.cfg.merge( kabbes_config.Config( dict = {'_Dir': _Dir, '_self': self} ) )
 
         ### Load Package.json
         cfg_json = kabbes_config.Config( dict = Package._config_json_Path.read_json_to_dict() )
@@ -58,4 +61,12 @@ class Package:
             if isinstance( root.cfg_sys, kabbes_config.Node ):
                 self.cfg.merge( root.cfg_sys )
 
+    def read_setup_config( self ):
+
+        config = configparser.ConfigParser()
+        config.read(self.cfg['setup_config.Path'].path)
+        return config
+
+    def get_version( self ):
+        return self.read_setup_config()['metadata']['version']
 
