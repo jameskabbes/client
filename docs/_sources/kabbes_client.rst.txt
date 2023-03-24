@@ -1,0 +1,29 @@
+kabbes\_client package
+======================
+
+Submodules
+----------
+
+kabbes\_client.Package module
+-----------------------------
+
+.. automodule:: kabbes_client.Package
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kabbes\_client.Root module
+--------------------------
+
+.. automodule:: kabbes_client.Root
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: kabbes_client
+   :members:
+   :undoc-members:
+   :show-inheritance:
