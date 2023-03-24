@@ -34,5 +34,6 @@
                 }    
             }
         }
-    }
+    },
+    "setup_config_filename": "setup.cfg"
 }

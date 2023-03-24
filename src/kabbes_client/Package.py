@@ -2,6 +2,7 @@ import kabbes_client
 import kabbes_config
 import configparser
 import parent_class
+import py_starter as ps
 
 class Package( parent_class.ParentClass ):
 
@@ -64,12 +65,11 @@ class Package( parent_class.ParentClass ):
             if isinstance( node, kabbes_config.Node ):
                 self.cfg.merge( node )
 
-    def read_setup_config( self ):
+    def get_version( self, path='' ):
 
-        config = configparser.ConfigParser()
-        config.read(self.cfg['setup_config.Path'].path)
-        return config
-
-    def get_version( self ):
-        return self.read_setup_config()['metadata']['version']
+        if path == '':
+            return ps.read_config( self.cfg['setup_config.Path'].path )['metadata']['version']
+        else:
+            print (path)
+            return ps.read_config( path )['metadata']['version']
 

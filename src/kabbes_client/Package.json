@@ -17,13 +17,14 @@
             "method":{
                 "name": "join_Path",
                 "kwargs":{
-                    "path": "setup.cfg"
+                    "path": "{{setup_config_filename}}"
                 }
             }
         }
     },
     "package":{
-        "!version":{
+        "version":"{R{package.eval_version}R}",
+        "!eval_version":{
             "$ref": "{R{_self}R}",
             "method":{
                 "name": "get_version"
