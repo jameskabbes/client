@@ -60,7 +60,7 @@ class Package( parent_class.ParentClass ):
 
         ### Load system kwargs - must escalate one level
         if valid_root:
-            node = root.cfg_user.get_node( self.cfg['package.name'] )
+            node = root.cfg_sys.get_node( self.cfg['package.name'] )
             if isinstance( node, kabbes_config.Node ):
                 self.cfg.merge( node )
 
