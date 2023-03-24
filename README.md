@@ -1,5 +1,11 @@
 # client
+A package used to standardize the creation of "client" objects across many other modules.
 
+[Documentation](https://jameskabbes.github.io/client)<br>
+[PyPI](https://pypi.org/project/kabbes-client)
+
+# instructions
+more details to come
 
 # pecking order, lowest to highest
 
@@ -18,3 +24,6 @@
 * Package -> Root.cfg_user[ 'package.name' ]
 * Package -> overwrite dict
 * Package -> Root.cfg_sys[ 'package.name' ]
+
+# Author
+James Kabbes
