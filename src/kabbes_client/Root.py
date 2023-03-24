@@ -29,8 +29,11 @@ class Root:
         config_cache_json_Path = self.cfg['config.Dir'].join_Path( Path = Root._config_cache_json_rel_Path )
         if not config_cache_json_Path.exists():
             config_cache_json_Path.write( string='{}' )
+            dict = {}
+        else:
+            dict = config_cache_json_Path.read_json_to_dict()
 
-        cfg_cache = kabbes_config.Config( dict = config_cache_json_Path.read_json_to_dict() )
+        cfg_cache = kabbes_config.Config( dict = dict )
         self.cfg.merge( cfg_cache )
 
         ### Load cwd Config - user_config.json
