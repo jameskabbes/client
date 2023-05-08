@@ -13,7 +13,7 @@ class Root:
     _config_json_Path = kabbes_client._Dir.join_Path( path='Root.json' )
     _config_cache_json_rel_Path = do.Path( path= do.join(kabbes_client._Dir.lowest(), 'Root_cache.json')  )  
 
-    def __init__( self ):
+    def __init__( self, root_dict={} ):
 
         ### Load baseline
         self.cfg = kabbes_config.Config( dict = Root._config_dict )
@@ -46,13 +46,15 @@ class Root:
         self.cfg_sys = kabbes_config.Config( dict = kabbes_client.sys_kwargs )
         self.cfg.merge( self.cfg_sys )  
 
+        ### Load dict - given by user on __init__
+        self.cfg.merge( kabbes_config.Config( dict = root_dict ) )
+
         ### Load user specified config
         self.cfg_user = kabbes_config.Config()
         if self.cfg.has_key( 'user.config.path' ):
             if self.cfg['user.config.Path'].exists():
                 self.cfg_user = kabbes_config.Config( dict=self.cfg['user.config.Path'].read_json_to_dict() )
                 self.cfg.merge( self.cfg_user ) #merge at root now, merge on package key later
-
 
 def set_Root( root_inst ):
     kabbes_client.root = root_inst
