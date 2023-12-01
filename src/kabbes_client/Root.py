@@ -1,60 +1,69 @@
-import kabbes_client
-import kabbes_config
 import dir_ops as do
+import kabbes_config
+from . import params
+import kabbes_client
+
 
 class Root:
 
     _config_dict = {
-        "cwd.!Dir":    kabbes_client._cwd_Dir,
-        "xdg.!Dir":    kabbes_client._xdg_Dir,
-        "home.!Dir":   kabbes_client._home_Dir
+        "cwd.!Dir":    params._cwd_Dir,
+        "xdg.!Dir":    params._xdg_Dir,
+        "home.!Dir":   params._home_Dir
     }
 
-    _config_json_Path = kabbes_client._Dir.join_Path( path='Root.json' )
-    _config_cache_json_rel_Path = do.Path( path= do.join(kabbes_client._Dir.lowest(), 'Root_cache.json')  )  
+    _config_json_Path = params._Dir.join_Path(path='Root.json')
+    _config_cache_json_rel_Path = do.Path(path=do.join(
+        params._Dir.lowest(), 'Root_cache.json'))
 
-    def __init__( self, root_dict={} ):
+    def __init__(self, root_dict={}):
 
-        ### Load baseline
-        self.cfg = kabbes_config.Config( dict = Root._config_dict )
-        
-        ### Load Root.json
-        cfg_json = kabbes_config.Config( dict = Root._config_json_Path.read_json_to_dict() )
-        self.cfg.merge( cfg_json )
+        # Load baseline
+        self.cfg = kabbes_config.Config(dict=Root._config_dict)
 
-        ### Load Cache -> Root_cache.json
-        if not self.cfg[ 'config.Dir' ].exists():
-            self.cfg['config.Dir'].create( override=True )
+        # Load Root.json
+        cfg_json = kabbes_config.Config(
+            dict=Root._config_json_Path.read_json_to_dict())
+        self.cfg.merge(cfg_json)
 
-        config_cache_json_Path = self.cfg['config.Dir'].join_Path( Path = Root._config_cache_json_rel_Path )
+        # Load Cache -> Root_cache.json
+        if not self.cfg['config.Dir'].exists():
+            self.cfg['config.Dir'].create(override=True)
+
+        config_cache_json_Path = self.cfg['config.Dir'].join_Path(
+            Path=Root._config_cache_json_rel_Path)
         if not config_cache_json_Path.exists():
-            config_cache_json_Path.write( string='{}' )
+            config_cache_json_Path.write(string='{}')
             dict = {}
         else:
             dict = config_cache_json_Path.read_json_to_dict()
 
-        cfg_cache = kabbes_config.Config( dict = dict )
-        self.cfg.merge( cfg_cache )
+        cfg_cache = kabbes_config.Config(dict=dict)
+        self.cfg.merge(cfg_cache)
 
-        ### Load cwd Config - user_config.json
+        # Load cwd Config - user_config.json
         self.cfg_cwd = kabbes_config.Config()
-        if self.cfg[ 'cwd.config.Path' ].exists():
-            self.cfg_cwd = kabbes_config.Config( dict = self.cfg['cwd.config.Path'].read_json_to_dict() )
-            self.cfg.merge( self.cfg_cwd )
+        if self.cfg['cwd.config.Path'].exists():
+            self.cfg_cwd = kabbes_config.Config(
+                dict=self.cfg['cwd.config.Path'].read_json_to_dict())
+            self.cfg.merge(self.cfg_cwd)
 
-        ### Load system kwargs
-        self.cfg_sys = kabbes_config.Config( dict = kabbes_client.sys_kwargs )
-        self.cfg.merge( self.cfg_sys )  
+        # Load system kwargs
+        self.cfg_sys = kabbes_config.Config(dict=params.sys_kwargs)
+        self.cfg.merge(self.cfg_sys)
 
-        ### Load dict - given by user on __init__
-        self.cfg.merge( kabbes_config.Config( dict = root_dict ) )
+        # Load dict - given by user on __init__
+        self.cfg.merge(kabbes_config.Config(dict=root_dict))
 
-        ### Load user specified config
+        # Load user specified config
         self.cfg_user = kabbes_config.Config()
-        if self.cfg.has_key( 'user.config.path' ):
+        if self.cfg.has_key('user.config.path'):
             if self.cfg['user.config.Path'].exists():
-                self.cfg_user = kabbes_config.Config( dict=self.cfg['user.config.Path'].read_json_to_dict() )
-                self.cfg.merge( self.cfg_user ) #merge at root now, merge on package key later
+                self.cfg_user = kabbes_config.Config(
+                    dict=self.cfg['user.config.Path'].read_json_to_dict())
+                # merge at root now, merge on package key later
+                self.cfg.merge(self.cfg_user)
 
-def set_Root( root_inst ):
+
+def set_Root(root_inst):
     kabbes_client.root = root_inst
